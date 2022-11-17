@@ -86,7 +86,9 @@ class serviceLogger {
   }
 
   error(message) {
-    console.error(`${FgRed}[${this.timestamp}] ${this.serviceName}: ${message}${Reset}`);
+    const logString = `[${this.timestamp}] ${this.serviceName}: ${message}`;
+    console.log(`${FgRed}${logString}${Reset}`);
+    writeLog('error', logString);
   }
 
   custom(message, color) {
