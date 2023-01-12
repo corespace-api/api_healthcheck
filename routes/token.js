@@ -8,7 +8,7 @@ dotenv.config();
 
 // Loading custom modules
 const Logger = require('../assets/utils/logger');
-const ApiRequest = require('../assets/utils/apiRequest');
+const ApiRequest = require('../assets/networking/apiRequest');
 
 // Create the logger
 const logger = new Logger(`healthcheck/${routename}`);
