@@ -1,13 +1,22 @@
-FROM alpine:latest
+FROM zombymediaic/nodejs:v19.5.0-alpine
 LABEL org.opencontainers.image.maintainer="AsP3X"
-LABEL org.opencontainers.image.name="healthcheck"
+LABEL org.opencontainers.image.name="HEALTHCHECK"
 
-RUN apk update && apk upgrade
-RUN apk add --no-cache bash curl nano wget
-RUN apk add --no-cache nodejs npm
-RUN npm install -g nvm yarn
+WORKDIR /service
 
-RUN nvm install 16.6.1
-RUN nvm use 16.6.1
+RUN yarn set version berry
 
-SHELL ["/bin/bash", "-c"]
+# -- Installing service dependencies
+COPY package.json /service/package.json
+COPY yarn.lock /service/yarn.lock
+RUN yarn install
+
+# -- Copying service files
+COPY service.js /service/service.js
+COPY assets/ /service/assets/
+COPY routes /service/routes/
+COPY config.json /service/config.json
+
+EXPOSE 3000
+
+CMD [ "yarn", "start" ]
